@@ -10,7 +10,6 @@ const dayjs = require('dayjs');
 
 app.use(express.json());
 
-// Coloque aqui o código da rota POST /participants
 app.post('/participants', async (req, res) => {
     const { name } = req.body;
     const schema = Joi.object({
@@ -41,7 +40,6 @@ app.post('/participants', async (req, res) => {
     res.sendStatus(201);
 });
 
-// Coloque aqui o código da rota GET /participants
 app.get('/participants', async (req, res) => {
     const db = mongoClient.db();
     const participantsCollection = db.collection('participants');
@@ -50,7 +48,6 @@ app.get('/participants', async (req, res) => {
 });
 
 
-// Coloque aqui o código da rota POST /messages
 app.post('/messages', async (req, res) => {
     const { to, text, type } = req.body;
     const from = req.headers.user;
@@ -81,7 +78,6 @@ app.post('/messages', async (req, res) => {
     res.sendStatus(201);
 });
 
-// Coloque aqui o código da rota GET /messages
 app.get('/messages', async (req, res) => {
     const limit = req.query.limit ? parseInt(req.query.limit) : null;
     if (limit !== null && (isNaN(limit) || limit <= 0)) {
@@ -112,7 +108,6 @@ app.get('/messages', async (req, res) => {
     res.json(messages);
 });
 
-// Coloque aqui o código da rota POST /status
 app.post('/status', async (req, res) => {
     const user = req.headers.user;
     if (!user) {
