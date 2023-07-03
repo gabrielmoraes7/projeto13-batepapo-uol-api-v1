@@ -1,13 +1,13 @@
-const express = require('express');
+import express from 'express';
+import { config } from 'dotenv';
+import { MongoClient } from 'mongodb';
+import Joi from 'joi';
+import dayjs from 'dayjs';
+
+config();
 const app = express();
 const port = 5000;
-const dotenv = require('dotenv');
-dotenv.config();
-const { MongoClient } = require('mongodb');
 const mongoClient = new MongoClient(process.env.DATABASE_URL);
-const Joi = require('joi');
-const dayjs = require('dayjs');
-
 app.use(express.json());
 
 app.post('/participants', async (req, res) => {
@@ -39,6 +39,7 @@ app.post('/participants', async (req, res) => {
     });
     res.sendStatus(201);
 });
+
 
 app.get('/participants', async (req, res) => {
     const db = mongoClient.db();
