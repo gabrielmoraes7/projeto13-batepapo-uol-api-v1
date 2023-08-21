@@ -1,15 +1,18 @@
+//imports
 import express from 'express';
 import { config } from 'dotenv';
 import { MongoClient } from 'mongodb';
 import Joi from 'joi';
 import dayjs from 'dayjs';
 
+//variaveis
 config();
 const app = express();
 const port = 5000;
 const mongoClient = new MongoClient(process.env.DATABASE_URL);
 app.use(express.json());
 
+//requisição de Participantes - POST
 app.post('/participants', async (req, res) => {
     const { name } = req.body;
     const schema = Joi.object({
@@ -40,7 +43,7 @@ app.post('/participants', async (req, res) => {
     res.sendStatus(201);
 });
 
-
+//requisição de Participantes - GET
 app.get('/participants', async (req, res) => {
     const db = mongoClient.db();
     const participantsCollection = db.collection('participants');
@@ -48,7 +51,7 @@ app.get('/participants', async (req, res) => {
     res.json(participants);
 });
 
-
+//requisição de Mensagens - GET
 app.post('/messages', async (req, res) => {
     const { to, text, type } = req.body;
     const from = req.headers.user;
@@ -79,6 +82,7 @@ app.post('/messages', async (req, res) => {
     res.sendStatus(201);
 });
 
+//requisição de Mensagens - GET
 app.get('/messages', async (req, res) => {
     const limit = req.query.limit ? parseInt(req.query.limit) : null;
     if (limit !== null && (isNaN(limit) || limit <= 0)) {
@@ -109,6 +113,7 @@ app.get('/messages', async (req, res) => {
     res.json(messages);
 });
 
+//requisição de Status - POST
 app.post('/status', async (req, res) => {
     const user = req.headers.user;
     if (!user) {
